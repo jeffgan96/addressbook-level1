@@ -111,6 +111,12 @@ public class AddressBook {
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
 
+    private static final String COMMAND_FIND_NUMBER_WORD = "findnumber";
+    private static final String COMMAND_FIND_NUMBER_DESC = "Finds all persons whose number correspond with the " +
+            "specified number and displays them as a list with index numbers.";
+    private static final String COMMAND_FIND_NUMBER_PARAMETERS = "NUMBER";
+    private static final String COMMAND_FIND_NUMBER_EXAMPLE = COMMAND_FIND_NUMBER_WORD + " 91234567";
+
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
@@ -381,6 +387,8 @@ public class AddressBook {
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
+        case COMMAND_FIND_NUMBER_WORD:
+            return executeFindPersonsByNumber(commandArgs);
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -407,6 +415,9 @@ public class AddressBook {
     private static String getMessageForInvalidCommandInput(String userCommand, String correctUsageInfo) {
         return String.format(MESSAGE_INVALID_COMMAND_FORMAT, userCommand, correctUsageInfo);
     }
+
+
+
 
     /**
      * Adds a person (specified by the command args) to the address book.
@@ -454,6 +465,35 @@ public class AddressBook {
         final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
         showToUser(personsFound);
         return getMessageForPersonsDisplayedSummary(personsFound);
+    }
+
+    /**
+     * Finds all persons in the address book whose number corresponds with the specified number.
+     *
+     * @param phoneNumber the phone number in digits as a string from the user
+     * @return list of persons whose number matches the input phone number
+     */
+    private static String executeFindPersonsByNumber(String phoneNumber) {
+        final ArrayList<String[]> personsFound = getPersonsWithNameContainingPhoneNumber(phoneNumber);
+        showToUser(personsFound);
+        return getMessageForPersonsDisplayedSummary(personsFound);
+    }
+
+    /**
+     * Find all the persons in the addressbook whose phone number corresponds to the specified number
+     *
+     * @param phoneNumber the phone number to be queried
+     * @return a list of persons whose name corresponds to the phone number queried
+     */
+    private static ArrayList<String[]> getPersonsWithNameContainingPhoneNumber(String phoneNumber) {
+        final ArrayList<String[]> matchedPersons = new ArrayList<>();
+        for (String[] person : getAllPersonsInAddressBook()) {
+            String personsNumber = getPhoneFromPerson(person);
+            if (personsNumber.compareTo(phoneNumber) == 0) {    //check if the two numbers are the same
+                matchedPersons.add(person);
+            }
+        }
+        return matchedPersons;
     }
 
     /**
@@ -1087,6 +1127,7 @@ public class AddressBook {
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
+                //+ getUsageInfoForFindNumberCommand() + LS
                 + getUsageInfoForExitCommand() + LS
                 + getUsageInfoForHelpCommand();
     }
@@ -1096,6 +1137,11 @@ public class AddressBook {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_ADD_WORD, COMMAND_ADD_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_ADD_PARAMETERS) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_ADD_EXAMPLE) + LS;
+    }
+
+    /** Returns the string for showing 'findnumber' command usage instruction */
+    private static String getUsageInfoForFindNumberCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_NUMBER_WORD, COMMAND_FIND_NUMBER_DESC) + LS + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_NUMBER_PARAMETERS) + LS + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_NUMBER_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'find' command usage instruction */
