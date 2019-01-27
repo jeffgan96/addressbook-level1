@@ -42,6 +42,17 @@
   list
 
 ##########################################################
+# test find number command
+##########################################################
+
+  # should match none with no number
+  findnumber
+  # should match none if no person has this number
+  findnumber 99999999
+  # should match person if numbers are the same
+  findnumber 333333
+   
+##########################################################
 # test find persons command
 ##########################################################
 

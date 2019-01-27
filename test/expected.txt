@@ -69,6 +69,10 @@
 || clear: Clears address book permanently.
 || 	Example: clear
 || 
+|| findnumber: Finds all persons whose number correspond with the specified number and displays them as a list with index numbers.
+||      Parameters: NUMBER
+||      Example: findnumber 91234567
+|| 
 || exit: Exits the program.	Example: exit
 || help: Shows program usage instructions.	Example: help
 || ===================================================
@@ -170,6 +174,19 @@
 || 	5. Esther Potato  Phone Number: 555555  Email: esther@notreal.potato
 || 
 || 5 persons found!
+|| ===================================================
+|| Enter command: || [Command entered:  findnumber]
+|| 
+|| 0 persons found!
+|| ===================================================
+|| Enter command: || [Command entered:  findnumber 99999999]
+|| 
+|| 0 persons found!
+|| ===================================================
+|| Enter command: || [Command entered:  findnumber 333333]
+|| 	1. Charlie Dickson  Phone Number: 333333  Email: charlie.d@nus.edu.sg
+|| 
+|| 1 persons found!
 || ===================================================
 || Enter command: || [Command entered:  find]
 || 
